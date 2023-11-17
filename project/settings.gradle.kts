@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("../pre-build")
     repositories {
         google()
         mavenCentral()
@@ -15,3 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "orgin-game-sdk"
 include(":app")
+include(":lib-core")
