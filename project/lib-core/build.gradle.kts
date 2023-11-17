@@ -103,7 +103,7 @@ tasks.register("aesEncrypted") {
 
         val id = json.getString("id")
         val ver = json.getString("version")
-        val file = project.file("../outputs/sdk-$id-$ver.enc")
+        val file = project.file("../output/sdk-$id-$ver.enc")
         encData?.let(file::writeBytes)
         println("SDK配置文件生成: $file, 文件长度: ${file.length()}\n${AndroidConfig.line}")
     }

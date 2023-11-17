@@ -18,3 +18,4 @@ maven.config.properties
 config.json
 *.gpg
 gradle.properties
+*.sh
