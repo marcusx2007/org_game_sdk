@@ -1,10 +1,13 @@
 import com.gaming.marcusx.AndroidConfig
 import com.gaming.marcusx.AES
 import org.json.JSONObject
+import com.gaming.marcusx.Maven
 
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("maven-publish")
+    id("signing")
 }
 
 android {
@@ -81,6 +84,7 @@ dependencies {
     implementation("androidx.compose.foundation:foundation:${composeVersion}")
 }
 
+/*************************** 自定义Gradle Task ******************************/
 
 //加密
 tasks.register("aesEncrypted") {
@@ -130,4 +134,62 @@ tasks.register("aesDecrypted") {
         val encData = AES.decrypt(data)
         println("解密数据: \n${encData}")
     }
+}
+
+/*************************** Maven Publish ******************************/
+tasks.register("makeAAR", Jar::class) {
+    group = "sdk"
+    val variant = "Release"
+    dependsOn("assemble$variant")
+    doLast {
+        val fileName = project.name.plus("-").plus(variant.lowercase()).plus(".aar")
+        val source = File(buildDir, "outputs/aar/$fileName")
+        if (!source.exists()) {
+            throw IllegalStateException("$fileName not found")
+        }
+        val targetFile = File("../output", "game-sdk${Maven.version}.aar")
+        //source.copyTo(targetFile)
+        destinationDirectory.set(file("../output"))
+        outputs.file(targetFile.parentFile)
+        copy {
+            from(source)
+            into(targetFile)
+        }
+    }
+}
+
+publishing {
+    publications {
+        val config = Maven.config(project)
+        create<MavenPublication>(Maven.name) {
+            groupId = config.getString("gid")
+            artifactId = config.getString("aid")
+            version = Maven.version
+
+            //project object model. 用来定义项目元数据和依赖关系的xml文件.
+            //项目元数据包含 groupId,artifactId,version.
+            pom {
+                name.set(config.getString("pmn"))
+                description.set(config.getString("pmd"))
+                url.set(config.getString("pmu"))
+                inceptionYear.set(config.getString("pmy"))
+            }
+            artifact(tasks.findByName("makeAAR"))
+        }
+
+        repositories {
+            maven {
+                setUrl(config.getString("central"))
+                credentials {
+                    username = config.getString("user")
+                    password = config.getString("pass")
+                }
+            }
+        }
+    }
+}
+
+
+signing {
+    sign(publishing.publications.maybeCreate(Maven.name))
 }
