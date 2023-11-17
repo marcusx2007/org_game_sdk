@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace = "com.orgi.game.sdk"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24
@@ -29,6 +29,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.3"
+    }
     kotlinOptions {
         jvmTarget = "17"
     }
@@ -42,6 +45,8 @@ dependencies {
     //noinspection GradleDependency
     implementation("androidx.core:core-ktx:1.10.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
+    //noinspection GradleDependency
+    implementation("com.google.android.material:material:1.5.0")
 
     //基础库
     implementation("androidx.security:security-crypto:1.0.0")

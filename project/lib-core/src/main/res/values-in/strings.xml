@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Zeus Enrapture</string>
+    <string name="one_more_click_go_back" >Kembali sekali lagi untuk keluar</string>
+    <string name="refresh" ><u>Refresh</u></string>
+    <string name="loading_error_tips" >♠️ Kesalahan koneksi server, tolong coba lagi nanti ♣️</string>
+    <string name="msg_update_android_system_webview" >Tolong tingkatkan Android System WebView untuk pengalaman bermain game yang lebih baik.</string>
+    <string name="btn_confirm" >Tentu</string>
+    <string name="btn_never_ask" >Tidak tanya</string>
+    <string name="btn_cancel" >Batal</string>
+</resources>

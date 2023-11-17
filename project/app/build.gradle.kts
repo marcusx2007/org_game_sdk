@@ -5,12 +5,11 @@ plugins {
 
 android {
     namespace = "com.org.marcus.x"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.org.marcus.x"
         minSdk = 24
-        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
