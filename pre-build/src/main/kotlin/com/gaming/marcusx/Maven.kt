@@ -9,6 +9,8 @@ object Maven {
     const val version = "0.0.1"
     const val name = "game-sdk"
 
+    const val aar = "$name-$version.aar"
+
     @JvmStatic
     fun config(project: Project): JSONObject {
         val file = project.rootProject.file("maven.config.properties")
@@ -27,7 +29,14 @@ object Maven {
             put("central", pro["maven.central"])
             put("user", pro["maven.user"])
             put("pass", pro["maven.pass"])
-
+            put("scmc", pro["scm.connect"])
+            put("scmd", pro["scm.devConnect"])
+            put("scmu", pro["scm.url"])
+            put("dei", pro["dep.id"])
+            put("deu", pro["dep.name"])
+            put("dee", pro["dep.email"])
+            put("lin", pro["license.name"])
+            put("liu", pro["license.url"])
         }
     }
 

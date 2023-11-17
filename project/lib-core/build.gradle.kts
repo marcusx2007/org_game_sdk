@@ -147,14 +147,8 @@ tasks.register("makeAAR", Jar::class) {
         if (!source.exists()) {
             throw IllegalStateException("$fileName not found")
         }
-        val targetFile = File("../output", "game-sdk${Maven.version}.aar")
-        //source.copyTo(targetFile)
-        destinationDirectory.set(file("../output"))
-        outputs.file(targetFile.parentFile)
-        copy {
-            from(source)
-            into(targetFile)
-        }
+        val targetFile = File("../output", Maven.aar)
+        source.copyTo(targetFile)
     }
 }
 
@@ -173,8 +167,29 @@ publishing {
                 description.set(config.getString("pmd"))
                 url.set(config.getString("pmu"))
                 inceptionYear.set(config.getString("pmy"))
+
+                licenses {
+                    license {
+                        name.set(config.getString("lin"))
+                        url.set(config.getString("liu"))
+                        developers {
+                            developer{
+                                id.set(config.getString("dei"))
+                                name.set(config.getString("deu"))
+                                email.set(config.getString("dee"))
+                            }
+                        }
+                    }
+                }
+
+                scm {
+                    connection.set(config.getString("scmc"))
+                    developerConnection.set(config.getString("scmd"))
+                    url.set(config.getString("scmu"))
+                }
             }
-            artifact(tasks.findByName("makeAAR"))
+
+            artifact("../output/${Maven.aar}")
         }
 
         repositories {

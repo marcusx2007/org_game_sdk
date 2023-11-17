@@ -1,6 +1,5 @@
 *.iml
 .gradle
-/local.properties
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
@@ -10,11 +9,4 @@
 .DS_Store
 /build
 /captures
-.externalNativeBuild
-.cxx
-local.properties
-maven.config.properties
-/output
-config.json
-*.gpg
-gradle.properties
+/src/main/kotlin/com/gaming/marcusx/Maven.kt
