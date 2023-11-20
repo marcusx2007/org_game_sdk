@@ -16,6 +16,8 @@ import com.gaming.core.GameSDK
 import com.gaming.core.extensions.toast
 
 import com.org.marcus.x.databinding.ActivityLoginBinding
+import java.net.URL
+import java.net.URLDecoder
 
 class LoginActivity : AppCompatActivity() {
 
@@ -57,7 +59,6 @@ class LoginActivity : AppCompatActivity() {
             )
         }
     }
-
 
     private fun hideVirtualButton(window: Window) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
