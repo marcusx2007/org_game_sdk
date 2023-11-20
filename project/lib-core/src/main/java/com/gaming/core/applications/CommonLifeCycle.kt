@@ -29,6 +29,8 @@ open class CommonLifeCycle : Application.ActivityLifecycleCallbacks {
     }
 
     override fun onActivityDestroyed(activity: Activity) {
-        stack.pop()
+        if (stack.isNotEmpty()) {
+            stack.pop()
+        }
     }
 }

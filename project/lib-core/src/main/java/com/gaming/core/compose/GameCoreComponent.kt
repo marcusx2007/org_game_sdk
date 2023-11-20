@@ -700,9 +700,9 @@ open class CoreGameClient : WebViewClient() {
         LogUtils.d(ConstPool.TAG, "shouldInterceptRequest:${request?.url}")
         val url = request?.url ?: return super.shouldInterceptRequest(view, request)
         if (isCocosEngineUrl(url)) {
-            val filaName = GamingGlobal.get().engine()
-            LogUtils.d("shouldInterceptRequest", "cocos engine file:$filaName")
-            return url.toWebResponse(GamingGlobal.get().application().assets.open(filaName))
+            val fileName = GamingGlobal.get().engine()
+            LogUtils.d("shouldInterceptRequest", "url=$url,fileName=$fileName")
+            return url.toWebResponse(GamingGlobal.get().application().assets.open(fileName))
         }
         return super.shouldInterceptRequest(view, request)
     }

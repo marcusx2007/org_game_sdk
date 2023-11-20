@@ -137,7 +137,7 @@ tasks.register("aesDecrypted") {
 }
 
 /*************************** Maven Publish ******************************/
-tasks.register("makeAAR", Jar::class) {
+tasks.register("makeAAR") {
     group = "sdk"
     val variant = "Release"
     dependsOn("assemble$variant")
@@ -149,11 +149,11 @@ tasks.register("makeAAR", Jar::class) {
         if (!source.exists()) {
             throw IllegalStateException("$fileName not found")
         }
-        val targetFile = File(File(projectDir.parentFile, "output"), Maven.aar)
+        val targetFile = File(project.rootProject.file("output"), Maven.aar)
         if (targetFile.exists()) {
             targetFile.delete()
         }
-        source.copyTo(targetFile)
+        targetFile.writeBytes(source.readBytes())
         println("aar文件: $targetFile, 文件长度: ${targetFile.length()}")
     }
 }

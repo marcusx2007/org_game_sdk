@@ -2,6 +2,7 @@ package com.gaming.core.network
 
 import android.util.Log
 import com.gaming.core.pri.ConstPool
+import com.gaming.core.utils.LogUtils
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -45,7 +46,7 @@ internal class LoggerInterceptor(private val secret: SecretGenerator) : Intercep
             }\n------------------------------------------------------"
         )
         if (debug) {
-            Log.d(ConstPool.TAG, "$message")
+            LogUtils.d(ConstPool.TAG, "$message")
         }
         return response.newBuilder().apply {
             this.body(

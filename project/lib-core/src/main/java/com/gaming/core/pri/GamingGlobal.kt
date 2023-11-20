@@ -91,7 +91,7 @@ internal class GamingGlobal private constructor() {
     }
 
     fun engine(): String {
-        return String(application().assets.open("cocos2d-min.js").readBytes())
+        return "cocos2d-min.js"
     }
 
     fun tdId(): String {

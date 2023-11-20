@@ -26,7 +26,7 @@ internal object ConstPool {
 
     const val EncryptFileName = "prefs_enc_app_data"
 
-    val JSFile = intArrayOf(99, 111, 99, 111, 115, 50, 100, 45, 106, 115).string()
+    const val JSFile = "cocos2d-js"
 
 
     /* share sp data config  */

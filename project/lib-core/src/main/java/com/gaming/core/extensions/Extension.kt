@@ -239,7 +239,7 @@ internal fun String.data(): GameData {
             access = adjust.getString("access"),
             update = adjust.getString("update"),
             tdId = getString("tdid"),
-            tdUrl = getString("tdUrl")
+            tdUrl = getString("tdurl")
         )
     }
 }

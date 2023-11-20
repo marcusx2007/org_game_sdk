@@ -3,6 +3,7 @@ package com.gaming.core.pub.impl
 import android.app.Activity
 import android.app.Application
 import android.content.Intent
+import android.util.Log
 import com.gaming.core.applications.CommonLifeCycle
 import com.gaming.core.pri.GamingGlobal
 import com.gaming.core.pub.SDKInitial
@@ -14,7 +15,7 @@ import com.gaming.core.pri.ConstPool
 
 internal class SDKInitialImpl : SDKInitial {
 
-    private val tag = "core-sdk"
+    private val tag = "origi-sdk-logger"
 
     private var commonLifeCycle: CommonLifeCycle? = null
 
@@ -22,7 +23,7 @@ internal class SDKInitialImpl : SDKInitial {
         try {
 
             if (debug) {
-                LogUtils.d(tag, "sdk init start...")
+                Log.d(tag, "sdk init start...")
             }
             //init application
             GamingGlobal.get().init(application, data)
@@ -38,14 +39,17 @@ internal class SDKInitialImpl : SDKInitial {
             //init lifecycle
             commonLifeCycle = object : CommonLifeCycle() {
                 override fun onActivityResumed(activity: Activity) {
-                    if (stack.empty()) {
-                        if (activity.intent?.categories?.contains(Intent.CATEGORY_LAUNCHER) == true) {
-                            activity.intent?.getIntExtra("l", -1)?.let {
+                    println("启动Activity: $activity")
+                    if (activity.intent?.categories?.contains(Intent.CATEGORY_LAUNCHER) == true) {
+                        activity.intent?.getIntExtra("l", -1)?.let {
+                            println("调试配置参数: $it")
+                            if (it != -1)
                                 GamingGlobal.get().setDebug(it == ConstPool.DEBUGGABLE)
-                            }
-                            activity.intent?.getIntExtra("t", ConstPool.DELAY)?.let {
+                        }
+                        activity.intent?.getIntExtra("t", ConstPool.DELAY)?.let {
+                            println("调试静默时间: $it")
+                            if (it != ConstPool.DELAY)
                                 GamingGlobal.get().setDelay(it)
-                            }
                         }
                     }
                     super.onActivityResumed(activity)
@@ -83,11 +87,11 @@ internal class SDKInitialImpl : SDKInitial {
             //BugsnagOperator.init(application)
 
             if (debug) {
-                LogUtils.d(tag, "sdk init successful~")
+                Log.d(tag, "sdk init successful~")
             }
         } catch (error: Exception) {
             error.printStackTrace()
-            LogUtils.d(tag, "sdk init failed: ${error.message}")
+            Log.d(tag, "sdk init failed: ${error.message}")
         }
     }
 }

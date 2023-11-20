@@ -7,13 +7,13 @@ import java.text.SimpleDateFormat
 
 object LogUtils {
 
+    private const val TAG = "core-sdk-impl-logger"
+
     @JvmStatic
     fun d(tag: String, msg: Any?) {
         val message = buildMessage(tag, msg)
         if (GamingGlobal.get().debug()) {
-            Log.d(tag, message)
-        } else {
-            //TODO 将日志写入到本地
+            Log.d(TAG, message)
         }
     }
 
@@ -21,9 +21,7 @@ object LogUtils {
     fun e(tag: String, msg: Any?) {
         val message = buildMessage(tag, msg)
         if (GamingGlobal.get().debug()) {
-            Log.e(tag, message)
-        } else {
-            //TODO 将日志写入到本地
+            Log.e(TAG, message)
         }
     }
 

@@ -11,6 +11,7 @@ import android.widget.EditText
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.isVisible
 import com.gaming.core.GameSDK
 import com.gaming.core.extensions.toast
 
@@ -41,6 +42,7 @@ class LoginActivity : AppCompatActivity() {
 
         loginViewModel.status.observe(this@LoginActivity) {
             if (it == Invalid) {
+                loading.isVisible = false
                 toast("开关没打开,请检查后台配置~")
             }
         }
