@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import com.gaming.core.analysi.AdjustManager
 import com.gaming.core.extensions.JSON
-import com.gaming.core.extensions.getDeviceId
+import com.gaming.core.extensions.getMobileId
 import com.gaming.core.extensions.installReferrer
 import com.gaming.core.extensions.setData
 import com.gaming.core.network.AbstractNetworkCallImpl
@@ -27,7 +27,7 @@ internal class SDKCallerImpl : SDKCaller {
                 throw IllegalStateException("sdk not initialed. please called GameSDK\$init first.")
             }
             //1.初始化,归因/aid
-            val deviceId = GamingGlobal.get().application().getDeviceId()
+            val deviceId = GamingGlobal.get().application().getMobileId()
             LogUtils.d(ConstPool.TAG, "deviceId=$deviceId")
 
             val installer = GamingGlobal.get().application().installReferrer()

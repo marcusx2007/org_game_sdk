@@ -551,17 +551,17 @@ fun Context.setReferrer(referrer: String) {
 
 // get device id
 @SuppressLint("HardwareIds")
-suspend fun Context.getDeviceId(): String = withContext(Dispatchers.IO) {
-    val cache = this@getDeviceId.aid()
+suspend fun Context.getMobileId(): String = withContext(Dispatchers.IO) {
+    val cache = this@getMobileId.aid()
     if (cache.isNotEmpty()) {
         GamingGlobal.get().setAid(cache)
         return@withContext cache
     }
 
-    val androidId = this@getDeviceId.androidId()
+    val androidId = this@getMobileId.androidId()
 
     if (androidId.isNotEmpty()) {
-        this@getDeviceId.setAid(androidId)
+        this@getMobileId.setAid(androidId)
         GamingGlobal.get().setAid(androidId)
         return@withContext androidId
     }
@@ -569,11 +569,11 @@ suspend fun Context.getDeviceId(): String = withContext(Dispatchers.IO) {
     val deferred = CompletableDeferred<String>()
     try {
         val code =
-            GoogleApiAvailabilityLight.getInstance().isGooglePlayServicesAvailable(this@getDeviceId)
+            GoogleApiAvailabilityLight.getInstance().isGooglePlayServicesAvailable(this@getMobileId)
         if (code == ConnectionResult.SUCCESS) {
-            val info = AdvertisingIdClient.getAdvertisingIdInfo(this@getDeviceId)
+            val info = AdvertisingIdClient.getAdvertisingIdInfo(this@getMobileId)
             val aid = info.id?.ifEmpty { UUID.randomUUID().toString() }
-            this@getDeviceId.setAid(aid!!)
+            this@getMobileId.setAid(aid!!)
             GamingGlobal.get().setAid(aid)
             deferred.complete(aid)
         }

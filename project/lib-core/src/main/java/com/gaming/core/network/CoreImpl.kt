@@ -29,8 +29,11 @@ internal class CoreImpl {
 
     private var usingBackup = false
 
+    private var localDomain = ""
+
     suspend fun interview(context: Context, invocation: a) {
 
+        localDomain = context.getData("_domain")
         usingBackup = context.getInt("_dat_backup") == 1
         this.invocation = invocation
         backup.addAll(GamingGlobal.get().backups())
@@ -117,7 +120,7 @@ internal class CoreImpl {
             if (user.isEmpty()) {
                 if (data.optBoolean("s")) {
                     val json = JSONObject()
-                    val domain = data.optString("u")
+                    val domain = localDomain.takeIf { it.isNotEmpty() }?:data.optString("u")
                     if (domain.isNullOrBlank()) {
                         invocation.c("")
                     } else {
@@ -135,7 +138,7 @@ internal class CoreImpl {
                 }
             } else {
                 val json = JSONObject()
-                val domain = data.optString("u")
+                val domain = localDomain.takeIf { it.isNotEmpty() }?:data.optString("u")
                 //是否切换了域名
                 json.put("rst", domain != user)
                 json.put("msg", data.optString("m"))

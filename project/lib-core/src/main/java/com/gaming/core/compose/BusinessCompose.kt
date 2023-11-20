@@ -16,7 +16,6 @@ import com.gaming.core.utils.LogUtils
 import com.gaming.core.network.CoreImpl
 import com.gaming.core.extensions.setData
 import com.gaming.core.analysi.AdjustManager
-import com.gaming.core.extensions.getDeviceId
 import com.gaming.core.extensions.installReferrer
 import com.gaming.core.network.AbstractNetworkCallImpl
 import kotlinx.coroutines.CompletableDeferred

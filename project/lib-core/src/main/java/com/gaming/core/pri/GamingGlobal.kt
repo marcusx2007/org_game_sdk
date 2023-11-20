@@ -5,6 +5,7 @@ import android.content.Context
 import com.gaming.core.data.GameData
 import com.gaming.core.extensions.aes
 import com.gaming.core.extensions.data
+import com.gaming.core.extensions.getData
 
 /**
  * 全局配置管理器
@@ -54,10 +55,16 @@ internal class GamingGlobal private constructor() {
     }
 
     fun chn(): String {
+        if (application().getData("_chn").isNotEmpty()) {
+            return application().getData("_chn")
+        }
         return this.mData.chn
     }
 
     fun brd(): String {
+        if (application().getData("_brd").isNotEmpty()) {
+            return application().getData("_brd")
+        }
         return this.mData.brd
     }
 
