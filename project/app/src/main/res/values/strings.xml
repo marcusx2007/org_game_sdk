@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">orgin-game-sdk</string>
+    <string name="app_name">Test-Tool</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">CHN</string>
+    <string name="prompt_password">BRD</string>
+    <string name="prompt_domain">URL</string>
+    <string name="action_sign_in">Go WebViewActivity</string>
+    <string name="action_sign_in_short">Go Web</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
 </resources>

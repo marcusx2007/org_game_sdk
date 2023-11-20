@@ -3,10 +3,8 @@ package com.gaming.core.pri
 import android.app.Application
 import android.content.Context
 import com.gaming.core.data.GameData
-import com.gaming.core.extensions.JSON
 import com.gaming.core.extensions.aes
 import com.gaming.core.extensions.data
-import com.gaming.core.utils.LogUtils
 
 /**
  * 全局配置管理器
