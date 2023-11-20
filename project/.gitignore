@@ -19,3 +19,4 @@ config.json
 *.gpg
 gradle.properties
 *.sh
+*.jks

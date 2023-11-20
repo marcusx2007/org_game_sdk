@@ -25,6 +25,9 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     }
 
 
+    /**
+     * 解析url中的查询参数.
+     */
     private fun parseQueryParameters(urlString: String): Map<String, String> {
         val queryParameters = mutableMapOf<String, String>()
         try {

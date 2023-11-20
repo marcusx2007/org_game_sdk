@@ -25,6 +25,19 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+            signingConfigs {
+                create("Release") {
+                    keyAlias = "marcus"
+                    keyPassword = "marcus2023"
+                    storeFile = file("../app.jks")
+                    storePassword = "marcus2023"
+                    enableV1Signing = true
+                    enableV2Signing = true
+                    enableV3Signing = true
+                    enableV4Signing = true
+                }
+            }
         }
     }
     compileOptions {

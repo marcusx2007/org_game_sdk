@@ -3,26 +3,30 @@ package com.origi.test.app.ui.login
 import android.os.Build
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.EditText
+import android.widget.RadioGroup
+import android.widget.RadioGroup.OnCheckedChangeListener
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import com.gaming.core.GameSDK
 import com.gaming.core.extensions.toast
+import com.gaming.core.utils.LogUtils
+import com.org.marcus.x.R
 
 import com.org.marcus.x.databinding.ActivityLoginBinding
-import java.net.URL
-import java.net.URLDecoder
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
+    private val array = arrayOf("https://game.noradc.com","https://game.ir02sg.com")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         hideVirtualButton(window)
@@ -36,6 +40,18 @@ class LoginActivity : AppCompatActivity() {
         val login = binding.login
         val loading = binding.loading
         val domain: EditText = binding.domain!!
+
+        binding.rgEnv?.setOnCheckedChangeListener { group, int ->
+            Log.d("LoginActivity", "onCreate: $int")
+            when(int) {
+                R.id.rb_br_env -> {
+                    domain.setText(array[0])
+                }
+                R.id.rb_id_env -> {
+                    domain.setText(array[1])
+                }
+            }
+        }
 
         GameSDK.init(application, true, assets.open("sdk.data.enc").readBytes())
 
