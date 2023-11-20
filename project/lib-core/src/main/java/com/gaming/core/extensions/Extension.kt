@@ -221,7 +221,6 @@ internal fun String.data(): GameData {
         val adjust = getJSONObject("adjust")
         GameData(
             number = getString("id"),
-            version = getString("version"),
             debug = getBoolean("debug"),
             brd = getString("brd"),
             chn = getString("chn"),

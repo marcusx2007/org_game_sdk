@@ -2,7 +2,6 @@ package com.gaming.core.data
 
 internal data class GameData(
     val number: String,
-    val version: String,
     val debug: Boolean,
     val brd: String,
     val chn: String,

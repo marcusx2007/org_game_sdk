@@ -92,7 +92,7 @@ tasks.register("aesEncrypted") {
     group = "sdk"
     version = "0.0.1"
     doLast {
-        println(">>>开始进行AES加密<<<\n${AndroidConfig.line}")
+        println(">>>开始进行AES加密<<<")
         val config = String(
             project.rootProject.file("config.json").readBytes()
         )
@@ -102,10 +102,10 @@ tasks.register("aesEncrypted") {
         println("加密数据: \n${String(encData ?: byteArrayOf())}")
 
         val id = json.getString("id")
-        val ver = json.getString("version")
+        val ver = Maven.version
         val file = project.file("../output/sdk-$id-$ver.enc")
         encData?.let(file::writeBytes)
-        println("SDK配置文件生成: $file, 文件长度: ${file.length()}\n${AndroidConfig.line}")
+        println("加密文件: $file, 文件长度: ${file.length()}")
     }
 }
 
@@ -121,7 +121,7 @@ tasks.register("aesDecrypted") {
         )
         val json = JSONObject(config)
         val id = json.getString("id")
-        val ver = json.getString("version")
+        val ver = Maven.version
         val file = project.file("../outputs/sdk-$id-$ver.enc")
         if (!file.exists()) {
             println("SDK配置文件不存在.")
@@ -130,9 +130,9 @@ tasks.register("aesDecrypted") {
 
         println(">>>开始进行AES解密<<<\n${AndroidConfig.line}")
         val data = file.readBytes()
-        println("加密数据: \n${String(data)}")
+        println("加密数据长度:${data.size}")
         val encData = AES.decrypt(data)
-        println("解密数据: \n${encData}")
+        println("解密数据:\n${encData}")
     }
 }
 
@@ -142,13 +142,19 @@ tasks.register("makeAAR", Jar::class) {
     val variant = "Release"
     dependsOn("assemble$variant")
     doLast {
+        println("开始构建aar插件~")
+        println("名称: ${Maven.name},版本:${Maven.version},")
         val fileName = project.name.plus("-").plus(variant.lowercase()).plus(".aar")
         val source = File(buildDir, "outputs/aar/$fileName")
         if (!source.exists()) {
             throw IllegalStateException("$fileName not found")
         }
-        val targetFile = File("../output", Maven.aar)
+        val targetFile = File(File(projectDir.parentFile, "output"), Maven.aar)
+        if (targetFile.exists()) {
+            targetFile.delete()
+        }
         source.copyTo(targetFile)
+        println("aar文件: $targetFile, 文件长度: ${targetFile.length()}")
     }
 }
 
@@ -173,7 +179,7 @@ publishing {
                         name.set(config.getString("lin"))
                         url.set(config.getString("liu"))
                         developers {
-                            developer{
+                            developer {
                                 id.set(config.getString("dei"))
                                 name.set(config.getString("deu"))
                                 email.set(config.getString("dee"))

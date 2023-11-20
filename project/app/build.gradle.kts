@@ -48,6 +48,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
 
-    implementation("io.github.marcusx2007.origi:game-sdk:0.0.1")
+    implementation("io.github.marcusx2007.origi:game-sdk:0.0.2")
 
 }
