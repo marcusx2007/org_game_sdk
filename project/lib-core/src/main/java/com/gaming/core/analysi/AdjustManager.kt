@@ -73,7 +73,7 @@ internal class AdjustManager private constructor() {
                     if (debug) AdjustConfig.ENVIRONMENT_SANDBOX else AdjustConfig.ENVIRONMENT_PRODUCTION
                 LogUtils.d(tag, " > configAdjust adjust env=$env")
                 val config = AdjustConfig(context.applicationContext, appId, env).apply {
-                    setSendInBackground(true)
+                    isSendInBackground = true
                     setLogLevel(if (debug) LogLevel.VERBOSE else LogLevel.INFO)
                 }
                 Adjust.onCreate(config)

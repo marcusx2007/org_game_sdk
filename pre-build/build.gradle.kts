@@ -48,6 +48,11 @@ gradlePlugin {
             version = "0.0.1"
             implementationClass = "com.gaming.marcusx.plugins.DefaultPlugin"
         }
+        create("FatAarPlugin") {
+            id = "com.o.m.fataar"
+            version = "0.0.1"
+            implementationClass = "com.kezong.fataar.FatAarPlugin"
+        }
     }
 }
 
@@ -56,8 +61,14 @@ dependencies {
     localGroovy()
     //noinspection GradleDependency
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.21")
+    //noinspection GradleDependency
     implementation("commons-io:commons-io:2.11.0")
     implementation("org.json:json:20210307") // JSON 库的依赖
-    implementation("com.android.tools.build:gradle:7.0.0")
+    implementation("com.android.tools.build:gradle:7.2.0")
+    implementation("org.javassist:javassist:3.27.0-GA")
     implementation("com.squareup:javapoet:1.13.0")
+    //noinspection GradleDependency
+    implementation("com.android.tools:common:30.2.0")
+    //noinspection GradleDependency
+    implementation("org.ow2.asm:asm-commons:9.2")
 }

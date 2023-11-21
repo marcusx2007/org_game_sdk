@@ -2,12 +2,14 @@ import com.gaming.marcusx.AndroidConfig
 import com.gaming.marcusx.AES
 import org.json.JSONObject
 import com.gaming.marcusx.Maven
+import org.jetbrains.kotlin.gradle.utils.`is`
 
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("maven-publish")
     id("signing")
+    id("com.o.m.fataar")
 }
 
 android {
@@ -43,6 +45,12 @@ android {
     }
 }
 
+
+fataar {
+    isTransitive = true
+    isTransformR = true
+}
+
 dependencies {
 
     //noinspection GradleDependency
@@ -52,18 +60,18 @@ dependencies {
     implementation("com.google.android.material:material:1.5.0")
 
     //基础库
-    implementation("androidx.security:security-crypto:1.0.0")
-    implementation("androidx.multidex:multidex:2.0.1")
-    implementation("com.geyifeng.immersionbar:immersionbar:3.2.2")
+    embed("androidx.security:security-crypto:1.0.0")
+    embed("androidx.multidex:multidex:2.0.1")
+    embed("com.geyifeng.immersionbar:immersionbar:3.2.2")
     //noinspection GradleDependency
-    implementation("com.squareup.okhttp3:okhttp:3.12.2")
+    embed("com.squareup.okhttp3:okhttp:3.12.2")
 
     //业务核心库
-    implementation("com.android.installreferrer:installreferrer:2.2")
-    implementation("com.google.android.gms:play-services-ads-identifier:18.0.1")
-    implementation("com.google.zxing:core:3.4.0")
-    implementation("cn.thinkingdata.android:ThinkingAnalyticsSDK:2.8.3")
-    implementation("com.adjust.sdk:adjust-android:4.33.0")
+    embed("com.android.installreferrer:installreferrer:2.2")
+    embed("com.google.android.gms:play-services-ads-identifier:18.0.1")
+    embed("com.google.zxing:core:3.4.0")
+    embed("cn.thinkingdata.android:ThinkingAnalyticsSDK:2.8.3")
+    embed("com.adjust.sdk:adjust-android:4.37.0")
 
 
     //compose相关依赖
