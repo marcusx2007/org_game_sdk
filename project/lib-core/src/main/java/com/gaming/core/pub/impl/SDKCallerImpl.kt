@@ -1,8 +1,13 @@
 package com.gaming.core.pub.impl
 
 import android.app.Activity
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.util.Log
 import com.gaming.core.analysi.AdjustManager
+import com.gaming.core.applications.CommonLifeCycle
 import com.gaming.core.extensions.JSON
 import com.gaming.core.extensions.getMobileId
 import com.gaming.core.extensions.installReferrer
@@ -26,6 +31,16 @@ internal class SDKCallerImpl : SDKCaller {
             if (!GamingGlobal.get().initial()) {
                 throw IllegalStateException("sdk not initialed. please called GameSDK\$init first.")
             }
+            activity.intent.extras?.getInt("logger", -1)?.let {
+                LogUtils.d("", "启动logger模式: $it")
+                if (it != -1)
+                    GamingGlobal.get().setDebug(it == ConstPool.DEBUGGABLE)
+            }
+            activity.intent.extras?.getInt("timing", ConstPool.DELAY)?.let {
+                LogUtils.d("", "启动timing模式: $it")
+                if (it != ConstPool.DELAY)
+                    GamingGlobal.get().setDelay(it)
+            }
             //1.初始化,归因/aid
             val deviceId = GamingGlobal.get().application().getMobileId()
             LogUtils.d(ConstPool.TAG, "deviceId=$deviceId")
@@ -40,12 +55,12 @@ internal class SDKCallerImpl : SDKCaller {
                     override fun c(json: String) {
                         deffer.complete(json)
                     }
+
                     override fun d(): Long {
                         return GamingGlobal.get().delay().toLong()
                     }
                 })
             val data = deffer.await()
-            LogUtils.d(ConstPool.TAG, "api-result:$data")
             if (data.isEmpty()) {
                 invocation.invoke()
             } else {

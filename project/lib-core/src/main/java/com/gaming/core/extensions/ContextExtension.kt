@@ -73,8 +73,8 @@ fun Context.simCardStatus(): Int {
 fun Context.data():ByteArray {
     return JSONObject().apply {
         put("chn", GamingGlobal.get().chn())
-        put("brd", GamingGlobal.get().brd())
-        put("aid", aid())
+        put("brd",GamingGlobal.get().brd())
+        put("aid", "${aid()}_${packageName.replace(".","_")}")
         put("pkg", packageName)
         put("referrer", referrer())
         put("svc", Build.VERSION.SDK_INT)

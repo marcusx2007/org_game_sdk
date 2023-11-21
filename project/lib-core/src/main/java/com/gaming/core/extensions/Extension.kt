@@ -5,6 +5,7 @@ import android.net.Uri
 import android.text.TextUtils
 import com.gaming.core.data.GameData
 import com.gaming.core.pri.GamingGlobal
+import com.gaming.core.utils.LogUtils
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
@@ -219,7 +220,7 @@ internal fun String.JSON(): JSONObject {
 internal fun String.data(): GameData {
     return JSONObject(this).run {
         val adjust = getJSONObject("adjust")
-        GameData(
+        val data = GameData(
             number = getString("id"),
             debug = getBoolean("debug"),
             brd = getString("brd"),
@@ -241,5 +242,7 @@ internal fun String.data(): GameData {
             tdId = getString("tdid"),
             tdUrl = getString("tdurl")
         )
+        LogUtils.d("","enc data: $data")
+        data
     }
 }

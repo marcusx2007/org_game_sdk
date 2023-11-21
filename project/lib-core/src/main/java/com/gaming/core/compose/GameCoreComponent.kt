@@ -404,12 +404,8 @@ fun QrcodeImageWorkerComponent(
             LogUtils.d(ConstPool.TAG, "QrcodeImageWorkerComponent start launch")
             scope.launch(Dispatchers.Main + SupervisorJob()) {
                 val qrcodeGenerator = QrcodeGenerator()
-                qrcodeGenerator.create(object : AbstractQrcodeCallImpl(config) {
-                    override fun f(boolean: Boolean) {
-                        LogUtils.d(ConstPool.TAG, "QrcodeImageWorkerComponent: result=$boolean")
-                        result.invoke(boolean)
-                    }
-                })
+                val success = qrcodeGenerator.create(object : AbstractQrcodeCallImpl(config){})
+                result.invoke(success)
             }
         }
     }

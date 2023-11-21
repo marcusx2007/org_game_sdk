@@ -39,9 +39,9 @@ internal open class AbstractQrcodeCallImpl(
         return Pair(config.x(), config.y())
     }
 
-    override fun f(boolean: Boolean) {
-
-    }
+//    override fun f(boolean: Boolean) {
+//
+//    }
 }
 
 internal class QrConfig constructor(

@@ -341,7 +341,7 @@ internal class AdjustManager private constructor() {
 
     fun onPause() {
         if (initial) {
-            LogUtils.d(tag, " > onResume adjust pause")
+            LogUtils.d(tag, " > onPause adjust pause")
             Adjust.onPause()
         } else {
             LogUtils.d(tag, " > adjust pause failed initial=$initial")

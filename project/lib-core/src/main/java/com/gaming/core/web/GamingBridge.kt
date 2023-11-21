@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.text.TextUtils
+import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.URLUtil
 import android.widget.Toast
@@ -142,69 +143,98 @@ internal class GamingBridge {
 
             when (json.optString("methodName")) {
                 "getBrand" -> {
-                    return GamingGlobal.get().brd()
+                    val brd = GamingGlobal.get().brd()
+                    LogUtils.d("", "getBrand: $brd")
+                    return brd
                 }
 
                 "getChannel" -> {
-                    return GamingGlobal.get().chn()
+                    val chn = GamingGlobal.get().chn()
+                    LogUtils.d("", "getChannel: $chn")
+                    return chn
                 }
 
                 "getAppName" -> {
-                    return GamingGlobal.get().application().appName()
+                    val appName = GamingGlobal.get().application().appName()
+                    LogUtils.d("", "getAppName: $appName")
+                    return appName
                 }
 
                 "getBridgeVersion" -> {
+                    LogUtils.d("", "getBridgeVersion: $mBridgeVersion")
                     return "$mBridgeVersion"
                 }
 
                 "getDeviceID" -> {
-                    return GamingGlobal.get().application().aid()
+                    val deviceId = GamingGlobal.get().application().aid()
+                    LogUtils.d("", "getDeviceID: $deviceId")
+                    return deviceId
                 }
 
                 "getPackageName" -> {
-                    return GamingGlobal.get().application().packageName
+                    val pkg = GamingGlobal.get().application().packageName
+                    LogUtils.d("", "getPackageName: $pkg")
+                    return pkg
                 }
 
                 "getSystemVersionCode" -> {
-                    return "${Build.VERSION.SDK_INT}"
+                    val svc = Build.VERSION.SDK_INT
+                    LogUtils.d("", "getSystemVersionCode: $svc")
+                    return "$svc"
                 }
 
                 "getClientVersionCode" -> {
-                    return "${GamingGlobal.get().application().cvc()}"
+                    val cvc = GamingGlobal.get().application().cvc()
+                    LogUtils.d("", "getClientVersionCode: $cvc")
+                    return "$cvc"
                 }
 
                 "getAccountInfo" -> {
-                    return GamingGlobal.get().application().getData("us-dta-0")
+                    val info = GamingGlobal.get().application().getData("us-dta-0")
+                    LogUtils.d("", "getAccountInfo: $info")
+                    return info
                 }
 
                 "getGoogleADID" -> {
+                    LogUtils.d("", "getGoogleADID: ${AdjustManager.get().googleAdid}")
                     return AdjustManager.get().googleAdid
                 }
 
                 "getAdjustDeviceID" -> {
-                    return AdjustManager.get().adId()
+                    val adjustDeviceId = AdjustManager.get().adId()
+                    LogUtils.d("", "getAdjustDeviceID: $adjustDeviceId")
+                    return adjustDeviceId
                 }
 
                 "getReferID" -> {
-                    return ExtraInfoReader[FileUtil.selfApkFile]?.referID ?: ""
+                    val referId = ExtraInfoReader[FileUtil.selfApkFile]?.referID ?: ""
+                    LogUtils.d("", "getReferID: $referId")
+                    return referId
                 }
 
                 "getAgentId" -> {
-                    return ExtraInfoReader[FileUtil.selfApkFile]?.agentID ?: ""
+                    val agentId = ExtraInfoReader[FileUtil.selfApkFile]?.agentID ?: ""
+                    LogUtils.d("", "getAgentId: $agentId")
+                    return agentId
                 }
 
                 "getTDTargetCountry" -> {
-                    return GamingGlobal.get().target()
+                    val tdTarget = GamingGlobal.get().target()
+                    LogUtils.d("", "getTDTargetCountry: $tdTarget")
+                    return tdTarget
                 }
 
                 "getCocosAllData" -> {
                     val map: Map<String, *> = GamingGlobal.get().application().all()
                     val obj = JSONObject(map)
+                    LogUtils.d("", "getCocosAllData: $obj")
                     return obj.toString()
                 }
 
                 "getBuildVersion" -> {
-                    return ConstPool.BUILD_VERSION
+                    val buildVer = ConstPool.BUILD_VERSION
+                    LogUtils.d("", "getBuildVersion: $buildVer")
+                    return buildVer
                 }
 
                 "getLighterHost" -> {
@@ -216,8 +246,10 @@ internal class GamingBridge {
                         .getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                     if (manager.hasPrimaryClip() && manager.primaryClip!!.itemCount > 0) {
                         val clipData: ClipData.Item = manager.primaryClip!!.getItemAt(0)
-                        return if (TextUtils.isEmpty(clipData.text)) "" else clipData.text
+                        val text = if (TextUtils.isEmpty(clipData.text)) "" else clipData.text
                             .toString()
+                        LogUtils.d("","getCopiedText: $text")
+                        return text
                     }
                 }
 
@@ -267,22 +299,26 @@ internal class GamingBridge {
 
                 "trackAdjustEventStart" -> {
                     val event = args?.get(0)?.toString()?.replace("undefined", "") ?: ""
-                    AdjustManager.get().trackEventStart(event.ifEmpty { GamingGlobal.get().start() })
+                    AdjustManager.get()
+                        .trackEventStart(event.ifEmpty { GamingGlobal.get().start() })
                 }
 
                 "trackAdjustEventGreeting" -> {
                     val event = args?.get(0)?.toString()?.replace("undefined", "") ?: ""
-                    AdjustManager.get().trackEventGreeting(event.ifEmpty { GamingGlobal.get().greeting() })
+                    AdjustManager.get()
+                        .trackEventGreeting(event.ifEmpty { GamingGlobal.get().greeting() })
                 }
 
                 "trackAdjustEventAccess" -> {
                     val event = args?.get(0)?.toString()?.replace("undefined", "") ?: ""
-                    AdjustManager.get().trackEventAccess(event.ifEmpty { GamingGlobal.get().access() })
+                    AdjustManager.get()
+                        .trackEventAccess(event.ifEmpty { GamingGlobal.get().access() })
                 }
 
                 "trackAdjustEventUpdated" -> {
                     val event = args?.get(0)?.toString()?.replace("undefined", "") ?: ""
-                    AdjustManager.get().trackEventUpdate(event.ifEmpty { GamingGlobal.get().update() })
+                    AdjustManager.get()
+                        .trackEventUpdate(event.ifEmpty { GamingGlobal.get().update() })
                 }
 
                 "saveGameUrl" -> {
@@ -303,24 +339,21 @@ internal class GamingBridge {
 
                 "getCocosData" -> {
                     val key = "${args?.get(0)}"
-                    return if (TextUtils.isEmpty(key)) {
-                        ""
-                    } else GamingGlobal.get().application().getData(key)
+                    val value = if (key.isEmpty()) "" else GamingGlobal.get().application().getData(key)
+                    LogUtils.d("","getCocosData: $value")
+                    return value
                 }
 
                 "openUrlByBrowser" -> {
-                    val url = "${args?.get(0)}"
-                    GamingGlobal.get().application().takeIf { it is CoreApplication }?.let {
-                        (it as CoreApplication).topActivity()?.let { activity ->
-                            try {
-                                val intent = Intent(Intent.ACTION_VIEW)
-                                intent.data = Uri.parse(url)
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                activity.startActivity(intent)
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                            }
-                        }
+                    try {
+                        val url = "${args?.get(0)}"
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.data = Uri.parse(url)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        LogUtils.d("","openUrlByBrowser: $url")
+                        GamingGlobal.get().application().startActivity(intent)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
 
@@ -333,22 +366,20 @@ internal class GamingBridge {
                 "openApp" -> {
                     val target = "${args?.get(0)}"
                     val fallbackUrl = "${args?.get(1)}"
-                    if (GamingGlobal.get().application() is CoreApplication) {
-                        val activity =
-                            (GamingGlobal.get().application() as CoreApplication).topActivity()
-                        try {
-                            activity?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(target)))
-                        } catch (error: Exception) {
-                            val intent = Intent(Intent.ACTION_VIEW)
-                            intent.data = Uri.parse(fallbackUrl)
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            activity?.startActivity(intent)
-                        }
+                    try {
+                        GamingGlobal.get().application()
+                            .startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(target)))
+                    } catch (error: Exception) {
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.data = Uri.parse(fallbackUrl)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        GamingGlobal.get().application().startActivity(intent)
                     }
                 }
 
                 "loadUrl" -> {
                     val url = "${args?.get(0)}"
+                    LogUtils.d("", "loadUrl:$url")
                     if (url.isEmpty() || url.isBlank()) return ""
                     mCallback?.open(url)
                 }
@@ -362,12 +393,15 @@ internal class GamingBridge {
                         .getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                     manager.setPrimaryClip(ClipData.newPlainText(null, "$value"))
                 }
+
                 "goBack" -> {
                     mCallback?.back()
                 }
+
                 "close" -> {
                     mCallback?.close()
                 }
+
                 "refresh" -> {
                     mCallback?.refresh()
                 }
@@ -381,7 +415,7 @@ internal class GamingBridge {
                     if (TextUtils.isEmpty(tag)) {
                         tag = TAG
                     }
-                    LogUtils.d(tag, "${args?.get(1)}")
+                    Log.d(tag, "${args?.get(1)}")
                 }
 
                 "commonData" -> {
@@ -389,6 +423,7 @@ internal class GamingBridge {
                     data.put("mac", GamingGlobal.get().application().macAddress())
                     //这个值之前可能存在,随着框架的迭代可能会移除了,传递获取到的值就行了.
                     data.put("gsf_id", GamingGlobal.get().application().gsfAndroidId())
+                    LogUtils.d("", "commonData: $data")
                     return data.toString()
                 }
 
@@ -409,7 +444,7 @@ internal class GamingBridge {
                     data.put("AppTotalMemory", r.totalMemory()) //App最大可用内存
                     data.put("AppMaxMemory", r.maxMemory()) //App当前可用内存
                     data.put("AppFreeMemory", r.freeMemory()) //App当前空闲内存
-                    LogUtils.d(TAG, "getMemInfo: $data")
+                    LogUtils.d("", "getMemInfo: $data")
                     return data.toString()
                 }
 
@@ -418,17 +453,18 @@ internal class GamingBridge {
                     val context: Context = GamingGlobal.get().application()
                     val imagePath = File(context.filesDir, DIR_IMAGES)
                     val destFile = File(imagePath, PROMOTION_SHARE_FILENAME)
+                    LogUtils.d(
+                        "",
+                        "shareToWhatsApp: $value , destFile=$destFile,file-length=${destFile.length()}"
+                    )
                     GamingGlobal.get().application().let {
-                        if (it is CoreApplication) {
-                            it.topActivity()?.let { ctx ->
-                                ShareUtil.shareToWhatsApp(ctx, "$value", destFile)
-                            }
-                        }
+                        ShareUtil.shareToWhatsApp(it, "$value", destFile)
                     }
                 }
 
                 "shareUrl" -> {
                     val value = args?.get(0)
+                    LogUtils.d("", "shareUrl: $value")
                     ShareUtil.sendText(GamingGlobal.get().application(), "$value")
                 }
 
@@ -465,7 +501,7 @@ internal class GamingBridge {
 
                 "setCocosData" -> {
                     val (key, value) = Pair(args?.get(0), args?.get(1))
-                    LogUtils.d("post", "setCocosData -> $key,$value")
+                    LogUtils.d("", "setCocosData: $key,$value")
                     setCocosData("$key", "$value")
                     return ""
                 }

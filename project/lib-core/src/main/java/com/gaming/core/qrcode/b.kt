@@ -24,5 +24,5 @@ internal interface b {
     fun e(): Pair<Int, Int>
 
     //返回结果到外部
-    fun f(boolean: Boolean)
+    //fun f(boolean: Boolean)
 }

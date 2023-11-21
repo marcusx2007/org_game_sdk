@@ -65,7 +65,7 @@ internal object ConstPool {
     const val PROMOTION_SHARE_FILENAME = "share_img.jpg"
 
     //日志标识
-    const val DEBUGGABLE = 110
+    const val DEBUGGABLE = 100
 
     const val DELAY = 4
 

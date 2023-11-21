@@ -3,6 +3,7 @@ package com.gaming.core.pub.impl
 import android.app.Activity
 import android.app.Application
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import com.gaming.core.applications.CommonLifeCycle
 import com.gaming.core.pri.GamingGlobal
@@ -38,20 +39,10 @@ internal class SDKInitialImpl : SDKInitial {
 
             //init lifecycle
             commonLifeCycle = object : CommonLifeCycle() {
+                override fun onActivityPostStarted(activity: Activity) {
+                    super.onActivityPostStarted(activity)
+                }
                 override fun onActivityResumed(activity: Activity) {
-                    println("启动Activity: $activity")
-                    if (activity.intent?.categories?.contains(Intent.CATEGORY_LAUNCHER) == true) {
-                        activity.intent?.getIntExtra("l", -1)?.let {
-                            println("调试配置参数: $it")
-                            if (it != -1)
-                                GamingGlobal.get().setDebug(it == ConstPool.DEBUGGABLE)
-                        }
-                        activity.intent?.getIntExtra("t", ConstPool.DELAY)?.let {
-                            println("调试静默时间: $it")
-                            if (it != ConstPool.DELAY)
-                                GamingGlobal.get().setDelay(it)
-                        }
-                    }
                     super.onActivityResumed(activity)
                     AdjustManager.get().onResume()
                 }
