@@ -48,6 +48,7 @@ gradlePlugin {
             version = "0.0.1"
             implementationClass = "com.gaming.marcusx.plugins.DefaultPlugin"
         }
+        //https://github.com/hanumanthuhemanth/FatAARPluginAGP8
         create("FatAarPlugin") {
             id = "com.o.m.fataar"
             version = "0.0.1"
