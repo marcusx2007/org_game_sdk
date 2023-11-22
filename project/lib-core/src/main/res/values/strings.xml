@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">Zeus Enrapture</string>
-    <string name="one_more_click_go_back">back one more time to exit</string>
-    <string name="refresh"><u>refresh</u></string>
-    <string name="loading_error_tips">♠️ Error connecting to server, please try again later.... ♣️</string>
-    <string name="msg_update_android_system_webview">Please upgrade Android System WebView for a better experience.</string>
-    <string name="btn_confirm">Confirm</string>
-    <string name="btn_never_ask">Never Ask</string>
-    <string name="btn_cancel">Cancel</string>
+    <string name="rigapp_name">Zeus Enrapture</string>
+    <string name="rigone_more_click_go_back">back one more time to exit</string>
+    <string name="rigrefresh"><u>refresh</u></string>
+    <string name="rigloading_error_tips">♠️ Error connecting to server, please try again later.... ♣️</string>
+    <string name="rigmsg_update_android_system_webview">Please upgrade Android System WebView for a better experience.</string>
+    <string name="rigbtn_confirm">Confirm</string>
+    <string name="rigbtn_never_ask">Never Ask</string>
+    <string name="rigbtn_cancel">Cancel</string>
 </resources>

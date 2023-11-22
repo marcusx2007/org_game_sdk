@@ -2,14 +2,12 @@ import com.gaming.marcusx.AndroidConfig
 import com.gaming.marcusx.AES
 import org.json.JSONObject
 import com.gaming.marcusx.Maven
-import org.jetbrains.kotlin.gradle.utils.`is`
 
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("maven-publish")
     id("signing")
-    id("com.o.m.fataar")
 }
 
 android {
@@ -19,6 +17,8 @@ android {
     defaultConfig {
         minSdk = 24
         consumerProguardFiles("consumer-rules.pro")
+        resourcePrefix = "rig"
+        resourceConfigurations.addAll(arrayOf("br", "id", "en"))
     }
 
     buildTypes {
@@ -45,12 +45,6 @@ android {
     }
 }
 
-
-fataar {
-    isTransitive = true
-    isTransformR = true
-}
-
 dependencies {
 
     //noinspection GradleDependency
@@ -58,26 +52,23 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     //noinspection GradleDependency
     implementation("com.google.android.material:material:1.5.0")
-
     //基础库
-    embed("androidx.security:security-crypto:1.0.0")
-    embed("androidx.multidex:multidex:2.0.1")
-    embed("com.geyifeng.immersionbar:immersionbar:3.2.2")
+    implementation("androidx.security:security-crypto:1.0.0")
+    implementation("androidx.multidex:multidex:2.0.1")
+    implementation("com.geyifeng.immersionbar:immersionbar:3.2.2")
     //noinspection GradleDependency
-    embed("com.squareup.okhttp3:okhttp:3.12.2")
-
+    implementation("com.squareup.okhttp3:okhttp:3.12.2")
     //业务核心库
-    embed("com.android.installreferrer:installreferrer:2.2")
-    embed("com.google.android.gms:play-services-ads-identifier:18.0.1")
-    embed("com.google.zxing:core:3.4.0")
-    embed("cn.thinkingdata.android:ThinkingAnalyticsSDK:2.8.3")
-    embed("com.adjust.sdk:adjust-android:4.37.0")
-
+    implementation("com.android.installreferrer:installreferrer:2.2")
+    implementation("com.google.android.gms:play-services-ads-identifier:18.0.1")
+    implementation("com.google.zxing:core:3.4.0")
+    implementation("cn.thinkingdata.android:ThinkingAnalyticsSDK:2.8.3")
+    implementation("com.adjust.sdk:adjust-android:4.37.0")
 
     //compose相关依赖
     val composeVersion = "1.2.0"
     //系统ui控制器,用来修改状态栏颜色等等
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
+    //implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
     //noinspection GradleDependency
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
     //noinspection GradleDependency
@@ -93,6 +84,19 @@ dependencies {
 }
 
 /*************************** 自定义Gradle Task ******************************/
+
+
+tasks.register("printDependencies") {
+    group = "sdk"
+    version = "0.0.1"
+    doLast {
+        val config = project.configurations.getByName("implementation")
+        println("config: ${config.name},${config.artifacts}")
+        config.dependencies.forEach { dep ->
+            println("dep:${dep.group},${dep.name},${dep.version}")
+        }
+    }
+}
 
 //加密
 tasks.register("aesEncrypted") {
@@ -181,6 +185,22 @@ publishing {
                 description.set(config.getString("pmd"))
                 url.set(config.getString("pmu"))
                 inceptionYear.set(config.getString("pmy"))
+
+
+                withXml {
+                    val depNode = asNode().appendNode("dependencies")
+                    project.configurations.getByName("implementation").dependencies.forEach {
+                        val group = it.group
+                        val name = it.name
+                        val version = it.version
+                        println("获取当前project依赖库: group=$group,name=$name,version=$version")
+                        depNode.appendNode("dependency").apply {
+                            appendNode("groupId", group)
+                            appendNode("artifactId", name)
+                            appendNode("version", version)
+                        }
+                    }
+                }
 
                 licenses {
                     license {

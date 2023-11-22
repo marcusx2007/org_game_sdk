@@ -357,7 +357,9 @@ class VariantProcessor {
     }
 
     private TaskProvider handleClassesMergeTask(final boolean isMinifyEnabled) {
-        final TaskProvider task = mProject.tasks.register("mergeClasses" + mVariant.name.capitalize()) {
+        def taskName = "mergeClasses" + mVariant.name.capitalize()
+        def alreadyTask = mProject.tasks.register(taskName)
+        final TaskProvider task = alreadyTask ? alreadyTask : mProject.tasks.create(taskName) {
 
             outputs.upToDateWhen { false }
 

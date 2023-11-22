@@ -16,8 +16,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import com.gaming.core.GameSDK
-import com.gaming.core.extensions.toast
-import com.gaming.core.utils.LogUtils
 import com.org.marcus.x.R
 
 import com.org.marcus.x.databinding.ActivityLoginBinding
@@ -26,7 +24,7 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
-    private val array = arrayOf("https://game.noradc.com","https://game.ir02sg.com")
+    private val array = arrayOf("https://game.noradc.com", "https://game.ir02sg.com")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         hideVirtualButton(window)
@@ -35,50 +33,48 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //val timing = intent.extras?.getInt("timing")
-        //val logger = intent.extras?.getInt("logger")
-        //Log.d("LoginActivity", "onCreate: timing=$timing,logger=$logger")
 
-//        val username = binding.username
-//        val password = binding.password
-//        val login = binding.login
-//        val loading = binding.loading
-//        val domain: EditText = binding.domain!!
-//
-//        binding.rgEnv?.setOnCheckedChangeListener { group, int ->
-//            Log.d("LoginActivity", "onCreate: $int")
-//            when(int) {
-//                R.id.rb_br_env -> {
-//                    domain.setText(array[0])
-//                }
-//                R.id.rb_id_env -> {
-//                    domain.setText(array[1])
-//                }
-//            }
-//        }
+        val username = binding.username
+        val password = binding.password
+        val login = binding.login
+        val loading = binding.loading
+        val domain: EditText = binding.domain!!
+
+        binding.rgEnv?.setOnCheckedChangeListener { group, int ->
+            Log.d("LoginActivity", "onCreate: $int")
+            when (int) {
+                R.id.rb_br_env -> {
+                    domain.setText(array[0])
+                }
+
+                R.id.rb_id_env -> {
+                    domain.setText(array[1])
+                }
+            }
+        }
 
         GameSDK.init(application, true, assets.open("sdk.data.enc").readBytes())
 
         loginViewModel =
             ViewModelProvider(this, LoginViewModelFactory())[LoginViewModel::class.java]
-//
-//        loginViewModel.status.observe(this@LoginActivity) {
-//            if (it == Invalid) {
-//                loading.isVisible = false
-//                toast("开关没打开,请检查后台配置~")
-//            }
-//        }
-//
-//        login.setOnClickListener {
-//            loading.visibility = View.VISIBLE
-//            loginViewModel.login(
-//                this@LoginActivity,
-//                username.text.toString().trim(),
-//                password.text.toString().trim(),
-//                domain.text?.toString()?.trim()?: ""
-//            )
-//        }
 
+        loginViewModel.status.observe(this@LoginActivity) {
+            if (it == Invalid) {
+                loading.isVisible = false
+                //toast("开关没打开,请检查后台配置~")
+            }
+        }
+
+        login.setOnClickListener {
+            loading.visibility = View.VISIBLE
+            loginViewModel.login(
+                this@LoginActivity,
+                binding.cbShf?.isChecked ?: true,
+                username.text.toString().trim(),
+                password.text.toString().trim(),
+                domain.text?.toString()?.trim() ?: ""
+            )
+        }
 
 //        val html = "<!DOCTYPE html>\n" +
 //                "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +

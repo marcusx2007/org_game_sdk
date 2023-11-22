@@ -162,7 +162,7 @@ fun GameCoreComponent(activity: Activity, box: BoxScope, suffix: String, url: St
     }
     if (backState) {
         if (System.currentTimeMillis().minus(clickBackPressTime) > 2000) {
-            activity.toast(activity.getString(activity.stringResources("one_more_click_go_back")))
+            activity.toast(activity.getString(activity.stringResources("rigone_more_click_go_back")))
             clickBackPressTime = System.currentTimeMillis()
         } else {
             activity.finish()
@@ -358,7 +358,7 @@ fun GameCoreComponent(activity: Activity, box: BoxScope, suffix: String, url: St
                 .background(Color.White)
         ) {
             ComposeText(
-                text = stringResource(id = activity.stringResources("refresh")),
+                text = stringResource(id = activity.stringResources("rigrefresh")),
                 Modifier.clickable {
                     isError = !activity.isConnect()
                 })
@@ -598,19 +598,19 @@ fun WebSystemComponent() {
         return
     }
     val ctx = GamingGlobal.get().application()
-    val builder = AlertDialog.Builder(LocalContext.current, ctx.styleResources("GamingDialog"))
-    builder.setMessage(ctx.stringResources("msg_update_android_system_webview"))
+    val builder = AlertDialog.Builder(LocalContext.current, ctx.styleResources("rigGamingDialog"))
+    builder.setMessage(ctx.stringResources("rigmsg_update_android_system_webview"))
     builder.setPositiveButton(
-        ctx.stringResources("btn_confirm")
+        ctx.stringResources("rigbtn_confirm")
     ) { d: DialogInterface?, _: Int ->
         d?.dismiss()
         ShareUtil.openMarket(ctx, "com.google.android.webview")
     }
     builder.setNegativeButton(
-        ctx.stringResources("btn_cancel")
+        ctx.stringResources("rigbtn_cancel")
     ) { d: DialogInterface?, _: Int -> d?.dismiss() }
     builder.setNeutralButton(
-        ctx.stringResources("btn_never_ask")
+        ctx.stringResources("rigbtn_never_ask")
     ) { d: DialogInterface?, _: Int ->
         d?.dismiss()
         GamingGlobal.get().application().setData(ConstPool.WEB_UPDATE, "1")

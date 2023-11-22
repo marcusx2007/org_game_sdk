@@ -1,10 +1,14 @@
 package com.origi.test.app.ui.login
 
 
+import android.content.ComponentName
+import android.content.Intent
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gaming.core.GameSDK
 import com.gaming.core.extensions.setData
+//import com.gaming.core.GameSDK
+//import com.gaming.core.extensions.setData
 import com.origi.test.app.data.LoginRepository
 import java.net.URL
 import java.net.URLDecoder
@@ -14,13 +18,20 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     val status = MutableLiveData<Status>(None)
     private val _status by this::status
 
-    fun login(context: LoginActivity, chn: String, brd: String, domain: String) {
+    fun login(context: LoginActivity, reqSHF:Boolean,chn: String, brd: String, domain: String) {
         val map = parseQueryParameters(domain)
         context.setData("_chn", chn)
         context.setData("_brd", map["brd"]?.takeIf { it.isNotEmpty() } ?: brd)
         context.setData("_domain", domain)
-        GameSDK.start(context) {
-            _status.value = Invalid
+        if (reqSHF) {
+            GameSDK.start(context) {
+                _status.value = Invalid
+            }
+        }else {
+            context.startActivity(Intent().setComponent(
+                ComponentName(context.packageName,"com.gaming.core.ui.GameCoreActivity")
+            ).putExtra("url",domain))
+            context.finish()
         }
     }
 
@@ -31,6 +42,7 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     private fun parseQueryParameters(urlString: String): Map<String, String> {
         val queryParameters = mutableMapOf<String, String>()
         try {
+            if (!urlString.contains("?")) return mapOf()
             val url = URL(urlString)
             val query = url.query
             val pairs = query.split("&")

@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Test-Tool</string>
     <string name="title_activity_login">LoginActivity</string>
-    <string name="prompt_email">CHN</string>
-    <string name="prompt_password">BRD</string>
-    <string name="prompt_domain">URL</string>
-    <string name="action_sign_in">Go WebViewActivity</string>
+    <string name="prompt_email">渠道</string>
+    <string name="prompt_password">品牌</string>
+    <string name="prompt_domain">跳转地址</string>
+    <string name="action_sign_in">进大厅</string>
     <string name="action_sign_in_short">Go Web</string>
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>
