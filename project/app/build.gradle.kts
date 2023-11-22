@@ -1,5 +1,6 @@
 import com.gaming.marcusx.Maven
 import com.gaming.marcusx.AndroidConfig
+import org.gradle.internal.Cast.uncheckedCast
 
 plugins {
     id("com.android.application")
@@ -51,6 +52,10 @@ android {
     }
 }
 
+fun DependencyHandler.core(): ProjectDependency {
+    return project(":lib-core")
+}
+
 dependencies {
     //noinspection GradleDependency
     implementation("androidx.core:core-ktx:1.10.0")
@@ -65,9 +70,6 @@ dependencies {
     if (AndroidConfig.usingRemoteLib) {
         implementation("io.github.marcusx2007.origi:game-sdk:${Maven.version}")
     } else {
-        val file = project.rootProject.file("output/${Maven.aar}")
-        if (file.exists()) {
-            implementation(files(file))
-        }
+        implementation(core())
     }
 }

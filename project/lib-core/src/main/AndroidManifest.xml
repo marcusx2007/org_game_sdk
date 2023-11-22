@@ -17,7 +17,7 @@
             android:name="com.gaming.core.ui.GameCoreActivity"
             android:configChanges="orientation|fontScale|colorMode|screenSize|density"
             android:exported="false"
-            android:screenOrientation="fullUser" />
+            android:screenOrientation="landscape" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
