@@ -53,55 +53,73 @@
 
     </RadioGroup>
 
-    <EditText
-        android:id="@+id/username"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_chn"
+        android:layout_width="match_parent"
         android:hint="@string/prompt_email"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:maxLines="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rg_env" />
+        app:layout_constraintTop_toBottomOf="@id/rg_env"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:maxLines="1"/>
 
-    <EditText
-        android:id="@+id/password"
-        android:singleLine="true"
-        android:maxLines="1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:id="@+id/til_brd"
         android:hint="@string/prompt_password"
-        android:imeActionLabel="@string/action_sign_in_short"
-        android:imeOptions="actionDone"
-        android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        app:layout_constraintTop_toBottomOf="@+id/til_chn"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/password"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:imeActionLabel="@string/action_sign_in_short"
+            android:imeOptions="actionDone"
+            android:selectAllOnFocus="true"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/domain"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="@string/prompt_domain"
-        android:imeActionLabel="@string/action_sign_in_short"
-        android:imeOptions="actionDone"
-        android:selectAllOnFocus="true"
-        android:text="https://game.brazil-zenam.com/origin/uat-h5-trucoking/41/"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_domain"
+        android:layout_width="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:hint="@string/prompt_domain"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        app:layout_constraintTop_toBottomOf="@+id/til_brd"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/domain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:imeActionLabel="@string/action_sign_in_short"
+            android:imeOptions="actionDone"
+            android:selectAllOnFocus="true"
+            android:text="https://game.brazil-zenam.com/origin/uat-h5-trucoking/41/" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 
     <CheckBox
         android:id="@+id/cb_shf"
         android:layout_width="wrap_content"
-        android:text="走SHF"
+        android:text="请求SHF"
         android:checked="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/domain"
+        app:layout_constraintTop_toBottomOf="@id/til_domain"
         android:layout_height="wrap_content"/>
 
     <Button
@@ -128,8 +146,8 @@
         android:layout_marginBottom="64dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/password"
-        app:layout_constraintStart_toStartOf="@+id/password"
+        app:layout_constraintEnd_toEndOf="@+id/til_domain"
+        app:layout_constraintStart_toStartOf="@+id/til_domain"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3" />
 

@@ -16,9 +16,12 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import com.gaming.core.GameSDK
+import com.gaming.core.extensions.toast
+import com.google.android.material.textfield.TextInputEditText
 import com.org.marcus.x.R
 
 import com.org.marcus.x.databinding.ActivityLoginBinding
+import org.json.JSONObject
 
 class LoginActivity : AppCompatActivity() {
 
@@ -34,8 +37,6 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        val username = binding.username
-        val password = binding.password
         val login = binding.login
         val loading = binding.loading
         val domain: EditText = binding.domain!!
@@ -53,7 +54,8 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        GameSDK.init(application, true, assets.open("sdk.data.enc").readBytes())
+        val data = assets.open("sdk.data.enc").readBytes()
+        GameSDK.init(application, true, data)
 
         loginViewModel =
             ViewModelProvider(this, LoginViewModelFactory())[LoginViewModel::class.java]
@@ -61,49 +63,25 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel.status.observe(this@LoginActivity) {
             if (it == Invalid) {
                 loading.isVisible = false
-                //toast("开关没打开,请检查后台配置~")
+                toast("开关没打开,请检查后台配置~")
             }
         }
+
+        val json = JSONObject(loginViewModel.aes(data))
+
+        binding.username.setText(json.optString("chn"))
+        binding.password.setText(json.optString("brd"))
 
         login.setOnClickListener {
             loading.visibility = View.VISIBLE
             loginViewModel.login(
                 this@LoginActivity,
                 binding.cbShf?.isChecked ?: true,
-                username.text.toString().trim(),
-                password.text.toString().trim(),
+                binding.username.text.toString().trim(),
+                binding.password.text.toString().trim(),
                 domain.text?.toString()?.trim() ?: ""
             )
         }
-
-//        val html = "<!DOCTYPE html>\n" +
-//                "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
-//                "\n" +
-//                "<head>\n" +
-//                "    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js\"></script>\n" +
-//                "    <script>\$(document).ready(function () {\n" +
-//                "        console.log(\"加载~\");\n" +
-//                "            \$(\"button\").click(function () {\n" +
-//                "                console.log(\"点了按钮\");\n" +
-//                "                // \$.post(\"https://<运营商后端接口>/api\", { param1: \"value1\", param2: \"value2\" }, function (data) {\n" +
-//                "                    var newPage = window.open('', '_blank'); newPage.document.open(); newPage.document.write(\"测试点击结果\");\n" +
-//                "                // });\n" +
-//                "            });\n" +
-//                "        });</script>\n" +
-//                "</head>\n" +
-//                "\n" +
-//                "<body><button>运行游戏</button></body>\n" +
-//                "\n" +
-//                "</html>"
-//        binding.web?.apply {
-//            settings.javaScriptEnabled = true
-//            settings.domStorageEnabled = true
-//            settings.allowFileAccess = true
-//            settings.allowUniversalAccessFromFileURLs = true
-//            settings.databaseEnabled = true
-//            settings.allowContentAccess = true
-//            loadDataWithBaseURL(null,html,"text/html","UFT-8",null)
-//        }
     }
 
     private fun hideVirtualButton(window: Window) {
