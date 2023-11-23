@@ -428,7 +428,7 @@ val Context.isWebViewCompatible: Boolean
 
 /**
  * get Google Service Framework id
- *
+ * #link http://www.java2s.com/example/android/account/get-google-gsf-id.html
  * @return gsf id
  */
 fun Context.gsfAndroidId(): String? {
