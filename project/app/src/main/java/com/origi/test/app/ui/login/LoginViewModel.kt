@@ -5,9 +5,12 @@ import android.content.ComponentName
 import android.content.Intent
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.gaming.core.GameSDK
 import com.gaming.core.extensions.setData
 import com.origi.test.app.data.LoginRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.net.URL
 import java.net.URLDecoder
 import javax.crypto.Cipher
@@ -19,22 +22,25 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     val status = MutableLiveData<Status>(None)
     private val _status by this::status
 
-    fun login(context: LoginActivity, reqSHF:Boolean,chn: String, brd: String, domain: String) {
-        val map = parseQueryParameters(domain)
-        context.setData("_chn", chn)
-        context.setData("_brd", map["brd"]?.takeIf { it.isNotEmpty() } ?: brd)
-        context.setData("_domain", domain)
-        if (reqSHF) {
-            GameSDK.start(context) {
-                _status.value = Invalid
+    fun login(context: LoginActivity, reqSHF: Boolean, chn: String, brd: String, domain: String) =
+        viewModelScope.launch(Dispatchers.Main) {
+            val map = parseQueryParameters(domain)
+            context.setData("_chn", chn)
+            context.setData("_brd", map["brd"]?.takeIf { it.isNotEmpty() } ?: brd)
+            context.setData("_domain", domain)
+            if (reqSHF) {
+                GameSDK.start(context) {
+                    _status.value = Invalid
+                }
+            } else {
+                context.startActivity(
+                    Intent().setComponent(
+                        ComponentName(context.packageName, "com.gaming.core.ui.GameCoreActivity")
+                    ).putExtra("url", domain)
+                )
+                context.finish()
             }
-        }else {
-            context.startActivity(Intent().setComponent(
-                ComponentName(context.packageName,"com.gaming.core.ui.GameCoreActivity")
-            ).putExtra("url",domain))
-            context.finish()
         }
-    }
 
 
     /**
@@ -61,7 +67,7 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
         return queryParameters
     }
 
-    fun aes(bytes:ByteArray):String {
+    fun aes(bytes: ByteArray): String {
         try {
             val algorithm = "AES"
             val nonce = "asdfghjkl"
@@ -72,13 +78,13 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
             cipher.init(Cipher.DECRYPT_MODE, SecretKeySpec(gcm(key), algorithm), parameterSpec)
             val data = cipher.doFinal(bytes)
             return String(data)
-        }
-        catch (error:Exception) {
+        } catch (error: Exception) {
             error.printStackTrace()
         }
         return ""
     }
-    private fun gcm(key:String): ByteArray {
+
+    private fun gcm(key: String): ByteArray {
         val keys = ByteArray(key.length / 2)
         var j = 0
         var i = 0

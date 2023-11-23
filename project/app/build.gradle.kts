@@ -1,6 +1,6 @@
 import com.gaming.marcusx.Maven
 import com.gaming.marcusx.AndroidConfig
-import org.gradle.internal.Cast.uncheckedCast
+import java.text.SimpleDateFormat
 
 plugins {
     id("com.android.application")
@@ -73,3 +73,58 @@ dependencies {
         implementation(core())
     }
 }
+
+
+//val assembleTask = "assembleRedirectApk"
+//
+//tasks.register(assembleTask) {
+//    group = "print"
+//    doLast {
+//        android.applicationVariants.all {
+//            println("构建变体: $name")
+//            outputs.all {
+//                println("构建输出:$outputFile")
+//            }
+//        }
+//    }
+//}
+
+
+/**
+ * 重命名构建输出
+ */
+android.applicationVariants.all {
+    val outputDir = rootProject.file("output")
+    val date = SimpleDateFormat("yyyyMMddhhmmssSSS").format(System.currentTimeMillis())
+    val fileName = "origi-sdk_test_tool_${date}_${name}"
+    outputs.forEach { op ->
+        val file = op.outputFile
+        if (file.exists() && file.length() > 0) {
+            val variantDir = File(outputDir, name)
+            variantDir.deleteRecursively()
+            val suffix = if (file.name.endsWith("apk")) {
+                "apk"
+            } else if (file.name.endsWith("aab")) {
+                "aab"
+            } else {
+                ""
+            }
+            copy {
+                from(file.parentFile)
+                into(variantDir)
+                rename {
+                    "$fileName.$suffix"
+                }
+                include("*.$suffix")
+                exclude("*.json")
+                exclude("*.idsig")
+            }
+        }
+    }
+}
+
+
+//afterEvaluate {
+//    project.tasks.findByName("assembleRelease")?.dependsOn(assembleTask)
+//    project.tasks.findByName("assembleDebug")?.dependsOn(assembleTask)
+//}

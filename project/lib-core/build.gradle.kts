@@ -140,7 +140,7 @@ tasks.register("aesDecrypted") {
             return@doLast
         }
 
-        println(">>>开始进行AES解密<<<\n${AndroidConfig.line}")
+        println(">>>开始进行AES解密<<<\n")
         val data = file.readBytes()
         println("加密数据长度:${data.size}")
         val encData = AES.decrypt(data)
