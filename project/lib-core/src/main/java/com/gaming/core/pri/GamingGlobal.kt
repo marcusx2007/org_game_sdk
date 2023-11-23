@@ -42,10 +42,13 @@ internal class GamingGlobal private constructor() {
     }
 
     fun init(application: Application, data: ByteArray) {
-        setApplication(application)
-        initData(data.aes().data())
-        mDebug = mData.debug
-        mCountry = mData.target
+        if (!mInitial) {
+            mInitial = true
+            setApplication(application)
+            initData(data.aes().data())
+            mDebug = mData.debug
+            mCountry = mData.target
+        }
     }
 
     fun setApplication(application: Application) {

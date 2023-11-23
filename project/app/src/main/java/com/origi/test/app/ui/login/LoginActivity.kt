@@ -16,6 +16,7 @@ import androidx.core.view.isVisible
 import com.gaming.core.GameSDK
 import com.gaming.core.extensions.toast
 import com.gaming.core.utils.LogUtils
+//import com.gaming.core.utils.LogUtils
 import com.org.marcus.x.R
 
 import com.org.marcus.x.databinding.ActivityLoginBinding
