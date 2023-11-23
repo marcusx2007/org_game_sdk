@@ -15,8 +15,6 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import com.gaming.core.GameSDK
 import com.gaming.core.extensions.toast
-import com.gaming.core.utils.LogUtils
-//import com.gaming.core.utils.LogUtils
 import com.org.marcus.x.R
 
 import com.org.marcus.x.databinding.ActivityLoginBinding
@@ -67,7 +65,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         val json = JSONObject(loginViewModel.aes(data))
-        LogUtils.d("","aes data: $json")
+        Log.d("core-sdk-impl-logger","aes data: $json")
         binding.username.setText(json.optString("chn"))
         binding.password.setText(json.optString("brd"))
 
