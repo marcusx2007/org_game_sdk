@@ -240,7 +240,8 @@ internal fun String.data(): GameData {
             access = adjust.getString("access"),
             update = adjust.getString("update"),
             tdId = getString("tdid"),
-            tdUrl = getString("tdurl")
+            tdUrl = getString("tdurl"),
+            target = getString("target").uppercase()
         )
         LogUtils.d("","enc data: $data")
         data

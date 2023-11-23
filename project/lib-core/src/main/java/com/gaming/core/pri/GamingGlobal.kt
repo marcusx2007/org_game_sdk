@@ -34,7 +34,7 @@ internal class GamingGlobal private constructor() {
     }
 
     fun setCountry(country: String) {
-        this.mCountry = country.ifEmpty { mCountry }
+        this.mCountry = country.ifEmpty { mCountry }.uppercase()
     }
 
     fun initData(data: GameData) {
