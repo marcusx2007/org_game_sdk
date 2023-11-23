@@ -13,6 +13,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import com.gaming.core.GameSDK
 import com.gaming.core.extensions.toast
 import com.org.marcus.x.R
@@ -24,7 +25,12 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
-    private val array = arrayOf("https://game.noradc.com", "https://game.ir02sg.com")
+    private val array = arrayOf(
+        "https://game.noradc.com",
+        "https://game.ir02sg.com",
+        "https://game.idn-zenam.com/origin/uat-h5-dominocash/",
+        "https://game.brazil-zenam.com/origin/uat-h5-trucoking/"
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         hideVirtualButton(window)
@@ -37,6 +43,7 @@ class LoginActivity : AppCompatActivity() {
         val login = binding.login
         val loading = binding.loading
         val domain: EditText = binding.domain!!
+        val uat: EditText = binding.uatNum!!
 
         binding.rgEnv?.setOnCheckedChangeListener { group, int ->
             Log.d("LoginActivity", "onCreate: $int")
@@ -48,6 +55,35 @@ class LoginActivity : AppCompatActivity() {
                 R.id.rb_id_env -> {
                     domain.setText(array[1])
                 }
+
+                R.id.rb_uat_id_env -> {
+                    domain.setText(array[2])
+                    if (uat.text.isEmpty()) {
+                        uat.requestFocus()
+                        uat.error = "请输入UAT编号"
+                        domain.setText(array[2])
+                    } else {
+                        domain.setText(array[2].plus(uat.text))
+                    }
+                }
+
+                R.id.rb_uat_br_env -> {
+                    if (uat.text.isEmpty()) {
+                        uat.requestFocus()
+                        uat.error = "请输入UAT编号"
+                        domain.setText(array[3])
+                    } else {
+                        domain.setText(array[3].plus(uat.text))
+                    }
+                }
+            }
+        }
+
+        uat.doAfterTextChanged {
+            if (binding.rgEnv?.checkedRadioButtonId == R.id.rb_uat_id_env) {
+                domain.setText(array[2].plus(it))
+            } else if (binding.rgEnv?.checkedRadioButtonId == R.id.rb_uat_br_env) {
+                domain.setText(array[3].plus(it))
             }
         }
 
@@ -65,7 +101,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         val json = JSONObject(loginViewModel.aes(data))
-        Log.d("core-sdk-impl-logger","aes data: $json")
+        Log.d("core-sdk-impl-logger", "aes data: $json")
         binding.username.setText(json.optString("chn"))
         binding.password.setText(json.optString("brd"))
 
