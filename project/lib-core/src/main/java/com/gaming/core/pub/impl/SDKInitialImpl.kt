@@ -22,10 +22,6 @@ internal class SDKInitialImpl : SDKInitial {
 
     override fun init(application: Application, debug: Boolean, data: ByteArray) {
         try {
-
-            if (debug) {
-                Log.d(tag, "sdk init start...")
-            }
             //init application
             GamingGlobal.get().init(application, data)
 

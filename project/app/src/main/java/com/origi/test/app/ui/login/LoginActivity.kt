@@ -9,15 +9,13 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.EditText
-import android.widget.RadioGroup
-import android.widget.RadioGroup.OnCheckedChangeListener
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import com.gaming.core.GameSDK
 import com.gaming.core.extensions.toast
-import com.google.android.material.textfield.TextInputEditText
+import com.gaming.core.utils.LogUtils
 import com.org.marcus.x.R
 
 import com.org.marcus.x.databinding.ActivityLoginBinding
@@ -68,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         val json = JSONObject(loginViewModel.aes(data))
-
+        LogUtils.d("","aes data: $json")
         binding.username.setText(json.optString("chn"))
         binding.password.setText(json.optString("brd"))
 

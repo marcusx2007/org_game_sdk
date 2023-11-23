@@ -193,7 +193,7 @@ publishing {
                         val group = it.group
                         val name = it.name
                         val version = it.version
-                        println("获取当前project依赖库: group=$group,name=$name,version=$version")
+                        println("构建maven pom远程依赖库: $group:$name:$version")
                         depNode.appendNode("dependency").apply {
                             appendNode("groupId", group)
                             appendNode("artifactId", name)

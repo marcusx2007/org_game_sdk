@@ -23,7 +23,7 @@ internal class GamingGlobal private constructor() {
 
     private lateinit var mData: GameData
     private lateinit var mApplication: Application
-    private var country: String = "ID"
+    private var mCountry: String = ""
     private var mAid: String = ""
     private var mDebug = false
     private var mInitial = false
@@ -34,7 +34,7 @@ internal class GamingGlobal private constructor() {
     }
 
     fun setCountry(country: String) {
-        this.country = country
+        this.mCountry = country.ifEmpty { mCountry }
     }
 
     fun initData(data: GameData) {
@@ -42,12 +42,10 @@ internal class GamingGlobal private constructor() {
     }
 
     fun init(application: Application, data: ByteArray) {
-        if (!mInitial) {
-            mInitial = true
-            setApplication(application)
-            initData(data.aes().data())
-            mDebug = mData.debug
-        }
+        setApplication(application)
+        initData(data.aes().data())
+        mDebug = mData.debug
+        mCountry = mData.target
     }
 
     fun setApplication(application: Application) {
@@ -79,7 +77,7 @@ internal class GamingGlobal private constructor() {
     }
 
     fun target(): String {
-        return country
+        return mCountry
     }
 
     fun debug(): Boolean {
@@ -98,7 +96,7 @@ internal class GamingGlobal private constructor() {
         return mData.tdId
     }
 
-    fun tdUrl():String {
+    fun tdUrl(): String {
         return mData.tdUrl
     }
 
@@ -134,7 +132,7 @@ internal class GamingGlobal private constructor() {
         mDelayTime = time
     }
 
-    fun backups():List<String> {
+    fun backups(): List<String> {
         return mData.backup
     }
 

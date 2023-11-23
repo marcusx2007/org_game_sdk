@@ -5,9 +5,6 @@ import android.app.Application
 import com.gaming.core.pub.SDKCallerFactory
 import com.gaming.core.pub.SDKInitialFactory
 
-/**
- * 非Compose版本调用
- */
 object GameSDK {
 
     @JvmStatic
